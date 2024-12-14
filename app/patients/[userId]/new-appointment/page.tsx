@@ -2,7 +2,10 @@ import Image from "next/image";
 import { Button  } from "@/components/ui/button";
 import PatientForm from "@/components/forms/PatientForm";
 import Link from "next/link";
-export default function Home() {
+import AppointmentForm from "@/components/forms/AppointmentForm";
+import { getPatient } from "@/lib/actions/patient.actions";
+export default async function NewAppointment({params :{userId}} : SearchParamProps) {
+const patient = await getPatient(userId);
   return (
    <div className="flex h-screen max-h-screen">
     {/* TODO : OTP  */}
@@ -15,24 +18,18 @@ export default function Home() {
       alt="logo"
       className="mb-12 h-10 w-fit"
       />
-      <PatientForm/>
-      <div className="text-14-regular mt-20 flex justify-between">
-        <p className="justify-items-end text-dark-600 xl:text-left">  © 2025 CarePulse</p>
-        <Link
-        href="/?admin=true" 
-        className="text-green-500" 
-         >Admin</Link>
-      </div>
+     < AppointmentForm 
+     type="create"
+     userId = {userId}
+     patientId = {patient.$id}
+     />
+     
+        <p className="copyright mt-10 py-12">  © 2025 CarePulse</p>
+       
     
     </div>
    </section>
-   <Image
-   src="/assets/images/onboarding-img.png"
-   height={1000}
-   width={1000}
-   alt=""
-   className="side-img max-w-[50%]"
-   />
+  
    </div>
   );
 }
