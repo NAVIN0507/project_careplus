@@ -24,6 +24,7 @@ import SubmitButton from "../SubmitButton"
 import { useState } from "react"
 import { UserFormValidation } from "@/lib/validation"
 import { useRouter } from "next/navigation"
+import { createUser } from "@/lib/actions/patient.actions"
 
  
 export const PatientForm = () => {
@@ -39,21 +40,25 @@ export const PatientForm = () => {
   })
  
   // 2. Define a submit handler.
-  function onSubmit({name , email , phone}: z.infer<typeof UserFormValidation>) {
+ const onSubmit = async(values: z.infer<typeof UserFormValidation>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setisLoading(true)
     try {
-        // const userData  ={
-        //     name,
-        //     email,
-        //     phone
-        // }
-        // const user = await createUser(userData);
-        // if(user) router.push(`/patients/${user.$id}/register`)
+        const userData  ={
+            name:values.name,
+            email:values.email,
+            phone:values.phone,
+        }
+        const newUser = await createUser(userData);
+      
+        if (newUser) {
+        router.push(`/patients/${newUser.$id}/register`);
+      }
     } catch (error) {
         console.log(error)
     }
+    setisLoading(false);
   }
   return(
     <Form {...form}>

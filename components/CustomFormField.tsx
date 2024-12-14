@@ -5,6 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Control, useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import {
@@ -19,6 +22,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { FormFiledType } from './forms/PatientForm'
 import Image from 'next/image'
+import { Select } from './ui/select';
+import { SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Doctors } from '@/constants';
+import { Textarea } from './ui/textarea';
+import { Checkbox } from './ui/checkbox';
+import { Label } from './ui/label';
 interface CustomProps{
   control : Control<any>,
   fieldType : FormFiledType
@@ -34,15 +43,14 @@ interface CustomProps{
   renderSkeleton?: (field : any) => React.ReactNode
 }
 const RenderField = ({field , props} :{field : any;          props:CustomProps}) =>{
-  const {fieldType , iconSrc , iconAlt , placeholder} = props
   switch (props.fieldType) {
     case FormFiledType.INPUT:
       return (
         <div className='flex rounded-md border border-dark-500 bg-dark-400'>
-          {iconSrc && (
+          {props.iconSrc && (
           <Image  
-          src={iconSrc}
-          alt= {iconAlt || 'icon'}
+          src={props.iconSrc}
+          alt= {props.iconAlt || 'icon'}
           height={24}
           width={24}
           className='ml-2'
@@ -50,7 +58,7 @@ const RenderField = ({field , props} :{field : any;          props:CustomProps})
         )}
         <FormControl>
           <Input
-          placeholder={placeholder}
+          placeholder={props.placeholder}
           {...field}
           className='shad-input border-0'
           />
@@ -62,7 +70,7 @@ const RenderField = ({field , props} :{field : any;          props:CustomProps})
         return (
           <PhoneInput 
           defaultCountry='IN'
-          placeholder ={placeholder}
+          placeholder ={props.placeholder}
           international
           withCountryCallingCode
           value ={field.value as E164Number | undefined}
@@ -70,7 +78,65 @@ const RenderField = ({field , props} :{field : any;          props:CustomProps})
           className='input-phone'
           />
         )
-    default:
+      case FormFiledType.DATE_PICKER:
+        return(
+          <div className='flex rounded-md border border-dark-500 bg-dark-400'>
+            <Image
+            src="/assets/icons/calendar.svg"
+            height={24}
+            width={24}
+            alt='calendars'
+            className='ml-2 '
+            />
+            <FormControl>
+               <DatePicker selected={field.value} onChange={(date) => field.onChange(date)} 
+                dateFormat={props.dateFormat ?? "MM/dd/yyyy"}
+                showTimeSelect={props.showTimeSelect ?? false}
+                timeInputLabel='Time:'
+                wrapperClassName='date-picker'
+                />
+            </FormControl>
+          </div>
+        )
+        case FormFiledType.SKELETON:
+          return(
+           props.renderSkeleton ? props.renderSkeleton(field) :null
+          )
+        case FormFiledType.SELECT:
+      return (
+        <FormControl>
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <FormControl>
+              <SelectTrigger className="shad-select-trigger">
+                <SelectValue placeholder={props.placeholder} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent className="shad-select-content">
+              {props.children}
+            </SelectContent>
+          </Select>
+        </FormControl>
+      )
+      case FormFiledType.TEXTAREA:
+        return(
+          <FormControl>
+           <Textarea placeholder={props.placeholder} {...field} className='shad-textArea' disabled={props.disabled}/>
+          </FormControl>
+        )
+    case FormFiledType.CHECKBOX:
+      return(
+        <FormControl>
+          <div className='flex items-center gap-4'>
+            <Checkbox
+            id={props.name}
+            checked={field.value}
+            onCheckedChange={field.onChange}
+            />
+            <Label htmlFor={props.name} className='checkbox-label'>{props.label}</Label>
+          </div>
+        </FormControl>
+      )
+      default:
       break;
   }
 }
