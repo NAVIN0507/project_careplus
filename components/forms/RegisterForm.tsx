@@ -67,6 +67,7 @@ export const RegisterForm = ({user} :{user :User}) => {
         birthDate:new Date(values.birthDate),
         identificationDocument: formData
        }
+       
        const patient = await registerPatient(patientData);
        if(patient){
         router.push(`/patients/${user.$id}/new-appointment`)
