@@ -1,4 +1,4 @@
-"use client"
+
 import Image from "next/image";
 
 import AppointmentForm from "@/components/forms/AppointmentForm";
@@ -6,7 +6,7 @@ import { getPatient } from "@/lib/actions/patient.actions";
 import { useState } from "react";
 export default async function NewAppointment({params :{userId}} : SearchParamProps) {
 const patient = await getPatient(userId);
-const [open, setopen] = useState(false)
+
   return (
    <div className="flex h-screen max-h-screen">
     {/* TODO : OTP  */}
