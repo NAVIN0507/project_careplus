@@ -3,12 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Button } from "@/components/ui/button"
+
 import {
   Form,
  
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+
 export enum FormFiledType{
     INPUT = 'input',
     TEXTAREA = 'textarea',
@@ -24,9 +24,9 @@ import SubmitButton from "../SubmitButton"
 import { useState } from "react"
 import { getAppointmentSchema} from "@/lib/validation"
 import { useRouter } from "next/navigation"
-import { createUser } from "@/lib/actions/patient.actions"
+
 import { Doctors } from "@/constants"
-import { SelectItem , Select , SelectContent , SelectTrigger } from "../ui/select"
+import { SelectItem  } from "../ui/select"
 import Image from "next/image"
 import { createAppointment, updateAppointment } from "@/lib/actions/appointment.actions"
 import { Appointment } from "@/types/appwrite.types"
@@ -35,7 +35,7 @@ export const AppointmentForm = ({userId , patientId , type , appointment , setOp
     patientId:string; 
     type:"create"|"cancel"|"schedule";
     appointment?:Appointment;
-    setOpen:(open:boolean) => void;
+    setOpen?:(open:boolean) => void;
 }) => {
     const router = useRouter();
  const [isLoading, setisLoading] = useState(false);
@@ -113,7 +113,7 @@ export const AppointmentForm = ({userId , patientId , type , appointment , setOp
       }
     }
    } catch (error) {
-    
+    console.log(error)
    }
     setisLoading(false);
   }

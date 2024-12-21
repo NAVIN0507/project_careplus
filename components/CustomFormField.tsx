@@ -1,19 +1,18 @@
 "use client"
 import React from 'react'
 import { E164Number } from "libphonenumber-js/core";
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Control, useForm } from "react-hook-form"
-import { z } from "zod"
-import { Button } from "@/components/ui/button"
+
+import { Control} from "react-hook-form"
+
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import {
-  Form,
+ 
   FormControl,
-  FormDescription,
+  
   FormField,
   FormItem,
   FormLabel,
@@ -23,8 +22,8 @@ import { Input } from "@/components/ui/input"
 import { FormFiledType } from './forms/PatientForm'
 import Image from 'next/image'
 import { Select } from './ui/select';
-import { SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Doctors } from '@/constants';
+import { SelectContent, SelectTrigger, SelectValue } from './ui/select';
+
 import { Textarea } from './ui/textarea';
 import { Checkbox } from './ui/checkbox';
 import { Label } from './ui/label';

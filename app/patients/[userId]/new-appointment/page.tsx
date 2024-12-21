@@ -1,11 +1,12 @@
+"use client"
 import Image from "next/image";
-import { Button  } from "@/components/ui/button";
-import PatientForm from "@/components/forms/PatientForm";
-import Link from "next/link";
+
 import AppointmentForm from "@/components/forms/AppointmentForm";
 import { getPatient } from "@/lib/actions/patient.actions";
+import { useState } from "react";
 export default async function NewAppointment({params :{userId}} : SearchParamProps) {
 const patient = await getPatient(userId);
+const [open, setopen] = useState(false)
   return (
    <div className="flex h-screen max-h-screen">
     {/* TODO : OTP  */}
@@ -22,6 +23,7 @@ const patient = await getPatient(userId);
      type="create"
      userId = {userId}
      patientId = {patient.$id}
+     
      />
      
         <p className="copyright mt-10 py-12">  © 2025 CarePulse</p>
