@@ -97,6 +97,6 @@ export const sendSMSNotification = async(userId:string , content : string)=>{
         return parseStringify(message);
         
     } catch (error) {
-        
+        console.log(error)
     }
 }
